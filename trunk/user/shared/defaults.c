@@ -378,7 +378,7 @@ struct nvram_pair router_defaults[] = {
 	{ "apps_dms", "0" },
 	{ "apps_itunes", "0"},
 	{ "sh_num", "0" },
-	{ "computer_name", BOARD_NAME },
+	{ "computer_name", "Router" },
 	{ "pcache_reclaim", "2" },
 	{ "usb3_disable", "0" },
 	{ "u2ec_enable", "1" },
@@ -551,22 +551,22 @@ struct nvram_pair router_defaults[] = {
 
 #if defined(APP_SHADOWSOCKS)
 	/* shadowsocks */
-	{ "ss_type", "0" }, //0=ss, 1=ssr
+	{ "ss_type", "1" }, //0=ss, 1=ssr
 	{ "ss_enable", "0" },
 	{ "ss_mode", "1" }, 	//0=全局代理,1=绕过大陆,2=gfwlist
 	{ "ss_server", "127.0.0.1" },
 	{ "ss_server_port", "8989" },
 	{ "ss_key", "Secret" },
-	{ "ss_method", "rc4-md5" },
+	{ "ss_method", "aes-256-cfb" },
 	{ "ss_udp", "0" },
 	{ "ss_local_port", "1080" },
 	{ "ss_mtu", "1492" },
 	{ "ss_router_proxy", "1" },
 	{ "ss_lower_port_only", "1" },		//1:22-1023;2:53,80,443
 	{ "ss_timeout", "60"},
-	{ "ss_protocol", "origin"},
+	{ "ss_protocol", "auth_aes128_sha1"},
 	{ "ss_proto_param", ""},
-	{ "ss_obfs", "plain"},
+	{ "ss_obfs", "tls1.2_ticket_auth"},
 	{ "ss_obfs_param", ""},
 
 	{ "ss-tunnel_enable", "0" },
@@ -609,8 +609,8 @@ struct nvram_pair router_defaults[] = {
 	{ "ddns_hostname2_x", "" },
 	{ "ddns_hostname3_x", "" },
 	{ "ddns_wildcard_x", "0" },
-	{ "ddns_cst_svr", "" },
-	{ "ddns_cst_url", "" },
+	{ "ddns_cst_svr", "members.3322.net" },
+	{ "ddns_cst_url", "/dyndns/update?system=dyndns&hostname=" },
 	{ "ddns_period", "24" },
 	{ "ddns_forced", "10" },
 	{ "ddns_verbose", "1" },
