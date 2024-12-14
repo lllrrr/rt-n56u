@@ -1,5 +1,5 @@
 THISDIR := $(shell pwd)
-FRP_VER := 0.29.0
+FRP_VER := 0.51.3
 FRP_URL_BASE := https://github.com/fatedier/frp/releases/download
 
 FRP_NAME := frp_$(FRP_VER)_linux_mipsle
@@ -16,6 +16,7 @@ download_test:
 extra_test:
 	( if [ ! -d $(FRP_NAME) ]; then \
 		tar xf $(FRP_NAME).tar.gz; \
+		upx --lzma --best $(THISDIR)/$(FRP_NAME)/frpc; \
 	fi )
 
 clean:

@@ -1,32 +1,34 @@
-THISDIR := $(shell pwd)
-XRAY_URL_BASE := https://github.com/felix-fly/xray-openwrt/releases/latest/download/
+XRAY_VERSION := 24.11.30
+XRAY_URL := https://codeload.github.com/XTLS/Xray-core/tar.gz/v$(XRAY_VERSION)
+XRAY_DIR = xray-core/Xray-core-$(XRAY_VERSION)/main
 
-XRAY_NAME := xray-linux-mipsle
-XRAY_URL := $(XRAY_URL_BASE)/$(XRAY_NAME).tar.gz
+THISDIR = $(shell pwd)
 
-CERT_FILE := https://curl.se/ca/cacert.pem
+all: download build_extract build
 
-all: download_test extra_test
-	@echo "xray build done!"
-
-download_test:
-	( if [ ! -f $(XRAY_NAME).tar.gz ]; then \
-		wget -t5 --timeout=20 --no-check-certificate -O $(XRAY_NAME).tar.gz $(XRAY_URL); \
-		wget -t5 --timeout=20 --no-check-certificate $(CERT_FILE); \
+download:
+	( if [ ! -f $(THISDIR)/Xray-core-$(XRAY_VERSION).tar.gz ]; then \
+	curl --create-dirs -L $(XRAY_URL) -o $(THISDIR)/Xray-core-$(XRAY_VERSION).tar.gz ; \
 	fi )
 
-extra_test:
-	( if [ ! -d $(XRAY_NAME) ]; then \
-		tar xf $(XRAY_NAME).tar.gz; \
-		rm xray; \
-		mv xray_softfloat xray; \
+build_extract:
+	mkdir -p $(THISDIR)/xray-core
+	mkdir -p $(THISDIR)/bin
+	( if [ ! -d $(THISDIR)/xray-core/Xray-core-$(XRAY_VERSION) ]; then \
+	rm -rf $(THISDIR)/xray-core/* ; \
+	tar zxf $(THISDIR)/Xray-core-$(XRAY_VERSION).tar.gz -C $(THISDIR)/xray-core ; \
 	fi )
+
+build:
+	( sed -i "s/go 1.21.4/go 1.23.4/g" $(THISDIR)/xray-core/Xray-core-$(XRAY_VERSION)/go.mod; \
+	cd $(THISDIR)/$(XRAY_DIR); \
+	GOOS=linux GOARCH=mipsle CGO_ENABLED=0 GOMIPS=softfloat go build -o $(THISDIR)/bin/xray -trimpath -ldflags "-s -w -buildid="; \
+	upx --lzma --best $(THISDIR)/bin/xray; \
+	)
 
 clean:
-	rm -rf $(XRAY_NAME).tar.gz
+	rm -rf $(THISDIR)/xray-core
+	rm -rf $(THISDIR)/bin
 
 romfs:
-ifeq ($(CONFIG_FIRMWARE_INCLUDE_XRAY),y)
-	$(ROMFSINST) -p +x $(THISDIR)/xray /usr/bin/xray
-	$(ROMFSINST) -p -x $(THISDIR)/cacert.pem /usr/lib/cacert.pem
-endif
+	$(ROMFSINST) -p +x $(THISDIR)/bin/xray /usr/bin/xray
