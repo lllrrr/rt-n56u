@@ -36,7 +36,6 @@ configure:
 			-DENABLE_REUSE_PORT=ON \
 			-DSYSTEMD_SERVICE=OFF \
 			.. ; \
-			upx --lzma --best $(THISDIR)/$(SRC_NAME)/build/trojan; \
 	)
 
 clean:
