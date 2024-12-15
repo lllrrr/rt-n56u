@@ -16,7 +16,6 @@ download_test:
 extra_test:
 	( if [ ! -d $(FRP_NAME) ]; then \
 		tar xf $(FRP_NAME).tar.gz; \
-		upx --lzma --best $(THISDIR)/$(FRP_NAME)/frpc; \
 	fi )
 
 clean:
