@@ -948,6 +948,7 @@ init_router(void)
 		restart_crond();
 	}
 	// system ready
+	nvram_set_int("ntp_ready", 0);
 	system("/etc/storage/started_script.sh &");
 }
 

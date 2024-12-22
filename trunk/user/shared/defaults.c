@@ -407,6 +407,11 @@ struct nvram_pair router_defaults[] = {
 	{ "aria_pport", "16888" },
 	{ "aria_rport", "6800" },
 	{ "aria_ropen", "0" },
+
+	/*autoreboot*/
+	{ "reboot_schedule_enable", "0" },
+	{ "reboot_schedule", "00000000000" },
+
 	{ "hdd_spindt", "2" },
 	{ "hdd_apmoff", "0" },
 
