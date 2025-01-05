@@ -1,4 +1,4 @@
-SRC_NAME=mbedtls-2.28.1
+SRC_NAME=mbedtls-2.28.6
 SRC_URL=https://tls.mbed.org/download/$(SRC_NAME).tar.gz
 
 all: download_test extract_test config_test
