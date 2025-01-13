@@ -8,6 +8,7 @@ if [ "$PS1" ] ; then
     export TERMINFO=/usr/share/terminfo
     export TERM=xterm
     [ -r /etc_ro/banner ] && cat /etc_ro/banner
+    /etc_ro/sysinfo.sh
     echo "Version: $(nvram get firmver_sub)"; echo ""
 
 fi;

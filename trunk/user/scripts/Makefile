@@ -1,4 +1,4 @@
-
+THISDIR = $(shell pwd)
 all:
 
 clean:
@@ -8,6 +8,10 @@ romfs:
 	$(ROMFSINST) /sbin/dev_init.sh
 	$(ROMFSINST) /sbin/reset_ss.sh
 	$(ROMFSINST) /sbin/mtd_storage.sh
+	$(ROMFSINST) -p +x $(THISDIR)/check_disk_size /sbin/check_disk_size
+	$(ROMFSINST) -p +x $(THISDIR)/copyscripts.sh /usr/bin/copyscripts.sh
+	$(ROMFSINST) -p +x $(THISDIR)/autostart.sh /usr/bin/autostart.sh
+	$(ROMFSINST) -p +x $(THISDIR)/sysinfo.sh /etc_ro/sysinfo.sh
 ifeq ($(STORAGE_ENABLED),y)
 	$(ROMFSINST) /sbin/automount.sh
 endif
@@ -27,3 +31,4 @@ endif
 	mkdir -p $(INSTALLDIR)/usr/share/terminfo
 	tar -xzf ./terminfo.tar.gz -C $(INSTALLDIR)/usr/share
 	$(ROMFSINST) /sbin/check_crontab.sh
+	$(ROMFSINST) $(THISDIR)/certs.tgz /etc_ro/certs.tgz
